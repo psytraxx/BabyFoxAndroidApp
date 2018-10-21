@@ -2,9 +2,6 @@ package dynamicflash.de.babyfox;
 
 import android.os.AsyncTask;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,7 +11,6 @@ import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +25,7 @@ class ImageSearchTask extends AsyncTask<String, Void, List<String>> {
 
     private final ImageSearchTaskCompleted taskCompleted;
 
-    public ImageSearchTask(ImageSearchTaskCompleted taskCompleted) {
+    ImageSearchTask(ImageSearchTaskCompleted taskCompleted) {
 
         this.taskCompleted = taskCompleted;
     }
@@ -40,24 +36,17 @@ class ImageSearchTask extends AsyncTask<String, Void, List<String>> {
         HttpURLConnection urlConnection = null;
         URL url;
         try {
-            url = new URL("https://www.bing.com/images/search?q="+ URLEncoder.encode(searchTerm[0],"UTF-8")+"&view=detailv2");
+            url = new URL("https://www.bing.com/images/search?q="+ URLEncoder.encode(searchTerm[0],"UTF-8") +"&qft=+filterui:photo-photo&FORM=IRFLTR");
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko");
+            urlConnection.setRequestProperty("User-Agent", "xxx");
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             Document doc = Jsoup.parse(in, "UTF-8", "https://www.bing.com/");
-            Elements links = doc.select("span[json-data]");
-            for (Element e : links) {
-                String jsonDataEndoded = e.attr("json-data");
-                String jsonData = URLDecoder.decode(jsonDataEndoded,"UTF-8");
-                JsonParser parser = new JsonParser();
-                JsonObject jsonObject = parser.parse(jsonData).getAsJsonObject();
-                JsonObject jsonArray = jsonObject.getAsJsonObject("web");
-                Integer i = 0;
-                while (jsonArray.get(i.toString()) != null)  {
-                    images.add(jsonArray.get(i+"").getAsJsonObject().get("imgUrl").getAsString());
-                    i++;
-                }
+            Elements thumbs = doc.select("a[class='thumb']");
+            for (Element e : thumbs) {
+                String sourceLink = e.attr("href");
+                images.add(sourceLink);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
