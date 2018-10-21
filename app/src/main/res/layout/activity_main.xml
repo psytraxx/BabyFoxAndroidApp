@@ -10,9 +10,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="dynamicflash.de.babyfox.MainActivity">
 
-    <com.daimajia.slider.library.SliderLayout
+    <com.glide.slider.library.SliderLayout
         android:id="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="match_parent" />
+
 </RelativeLayout>

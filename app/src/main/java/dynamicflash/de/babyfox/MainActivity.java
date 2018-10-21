@@ -1,12 +1,14 @@
 package dynamicflash.de.babyfox;
 
 import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
 
-import com.daimajia.slider.library.Indicators.PagerIndicator;
-import com.daimajia.slider.library.SliderLayout;
-import com.daimajia.slider.library.SliderTypes.BaseSliderView;
-import com.daimajia.slider.library.SliderTypes.DefaultSliderView;
+
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.glide.slider.library.SliderLayout;
+import com.glide.slider.library.SliderTypes.DefaultSliderView;
 
 import java.util.List;
 
@@ -22,9 +24,9 @@ public class MainActivity extends AppCompatActivity implements ImageSearchTask.I
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mDemoSlider = (SliderLayout)findViewById(R.id.slider);
+        mDemoSlider = findViewById(R.id.slider);
         mDemoSlider.setDuration(10000);
-        mDemoSlider.setIndicatorVisibility(PagerIndicator.IndicatorVisibility.Visible);
+        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
 
         ImageSearchTask task = new ImageSearchTask(MainActivity.this);
@@ -40,10 +42,14 @@ public class MainActivity extends AppCompatActivity implements ImageSearchTask.I
 
     @Override
     public void onTaskCompleted(List<String> urlList) {
-        for (String url: urlList) {
+
+        RequestOptions requestOption = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
+        for (String url : urlList) {
             DefaultSliderView textSliderView = new DefaultSliderView(this);
-            textSliderView.setScaleType(BaseSliderView.ScaleType.CenterInside);
             textSliderView.image(url);
+            textSliderView.setRequestOption(requestOption);
+            textSliderView.setBackgroundColor(Color.TRANSPARENT);
+            textSliderView.setProgressBarVisible(true);
             mDemoSlider.addSlider(textSliderView);
         }
     }
