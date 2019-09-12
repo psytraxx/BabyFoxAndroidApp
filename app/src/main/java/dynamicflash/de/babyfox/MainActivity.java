@@ -1,9 +1,7 @@
 package dynamicflash.de.babyfox;
 
-import android.support.v7.app.AppCompatActivity;
-import android.graphics.Color;
 import android.os.Bundle;
-
+import android.support.v7.app.AppCompatActivity;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -48,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements ImageSearchTask.I
             DefaultSliderView textSliderView = new DefaultSliderView(this);
             textSliderView.image(url);
             textSliderView.setRequestOption(requestOption);
-            textSliderView.setBackgroundColor(Color.TRANSPARENT);
             textSliderView.setProgressBarVisible(true);
             mDemoSlider.addSlider(textSliderView);
         }
