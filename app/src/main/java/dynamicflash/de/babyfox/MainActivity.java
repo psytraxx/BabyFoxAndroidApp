@@ -1,7 +1,6 @@
 package dynamicflash.de.babyfox;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -9,6 +8,8 @@ import com.glide.slider.library.SliderLayout;
 import com.glide.slider.library.SliderTypes.DefaultSliderView;
 
 import java.util.List;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements ImageSearchTask.ImageSearchTaskCompleted {
 
