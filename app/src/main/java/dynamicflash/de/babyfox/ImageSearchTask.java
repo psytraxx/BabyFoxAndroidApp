@@ -1,5 +1,6 @@
 package dynamicflash.de.babyfox;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 
 import org.jsoup.Jsoup;
@@ -36,16 +37,17 @@ class ImageSearchTask extends AsyncTask<String, Void, List<String>> {
         HttpURLConnection urlConnection = null;
         URL url;
         try {
-            url = new URL("https://www.bing.com/images/search?q="+ URLEncoder.encode(searchTerm[0],"UTF-8") +"&qft=+filterui:photo-photo&FORM=IRFLTR");
+            url = new URL("https://www2.bing.com/images/search?q=" + URLEncoder.encode(searchTerm[0],"UTF-8") +"&form=HDRSC2&first=1&tsc=ImageHoverTitle");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("User-Agent", "xxx");
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
             Document doc = Jsoup.parse(in, "UTF-8", "https://www.bing.com/");
-            Elements thumbs = doc.select("a[class='thumb']");
+            Elements thumbs = doc.select("a[class='iusc']");
             for (Element e : thumbs) {
                 String sourceLink = e.attr("href");
-                images.add(sourceLink);
+                Uri uri = Uri.parse(sourceLink);
+                images.add(uri.getQueryParameter("mediaurl"));
 
             }
         } catch (Exception e) {
