@@ -1,7 +1,10 @@
 package dynamicflash.de.babyfox;
 
+import android.content.Context;
 import android.net.Uri;
-import android.os.AsyncTask;
+
+import androidx.annotation.Nullable;
+import androidx.loader.content.AsyncTaskLoader;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -15,29 +18,31 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 /**
  * Created by eric on 10/12/16. - all rights reserved
  */
 
-class ImageSearchTask extends AsyncTask<String, Void, List<String>> {
+class ImageSearchLoader extends AsyncTaskLoader<List<String>> {
+
+    private final String searchTerm;
 
     private final List<String> images = new ArrayList<>();
 
-    private final ImageSearchTaskCompleted taskCompleted;
+    public ImageSearchLoader(Context context, String searchTerm) {
 
-    ImageSearchTask(ImageSearchTaskCompleted taskCompleted) {
-
-        this.taskCompleted = taskCompleted;
+        super(context);
+        this.searchTerm = searchTerm;
     }
 
+    @Nullable
     @Override
-    protected List<String> doInBackground(String... searchTerm) {
-
+    public List<String> loadInBackground() {
         HttpURLConnection urlConnection = null;
         URL url;
         try {
-            url = new URL("https://www2.bing.com/images/search?q=" + URLEncoder.encode(searchTerm[0],"UTF-8") +"&form=HDRSC2&first=1&tsc=ImageHoverTitle");
+            url = new URL("https://www2.bing.com/images/search?q=" + URLEncoder.encode(this.searchTerm, "UTF-8") + "&form=HDRSC2&first=1&tsc=ImageHoverTitle");
             urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setRequestProperty("User-Agent", "xxx");
 
@@ -57,13 +62,5 @@ class ImageSearchTask extends AsyncTask<String, Void, List<String>> {
                 urlConnection.disconnect();
         }
         return images;
-    }
-
-    public interface ImageSearchTaskCompleted {
-        void onTaskCompleted(List<String> response);
-    }
-
-    protected void onPostExecute(List<String> result){
-        taskCompleted.onTaskCompleted(result);
     }
 }
