@@ -11,7 +11,7 @@ import androidx.loader.content.Loader;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.glide.slider.library.SliderLayout;
-import com.glide.slider.library.SliderTypes.DefaultSliderView;
+import com.glide.slider.library.slidertypes.DefaultSliderView;
 
 import java.util.List;
 
