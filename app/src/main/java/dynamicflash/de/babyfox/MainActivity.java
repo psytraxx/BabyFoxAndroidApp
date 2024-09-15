@@ -15,29 +15,33 @@ import com.glide.slider.library.slidertypes.DefaultSliderView;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<List<String>>   {
+import dynamicflash.de.babyfox.databinding.ActivityMainBinding;
+
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<String>> {
 
 
     private static final String SEARCH_TERM = "Sleeping gerbils";
 
-    private SliderLayout mDemoSlider;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        mDemoSlider = findViewById(R.id.slider);
-        mDemoSlider.setDuration(10000);
-        mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
-        mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        this.binding = binding;
+        setContentView(binding.getRoot());
+
+        binding.slider.setDuration(10000);
+        binding.slider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
+        binding.slider.setPresetTransformer(SliderLayout.Transformer.Background2Foreground);
 
         LoaderManager.getInstance(this).initLoader(0, null, this).forceLoad();
     }
 
     @Override
     protected void onStop() {
-        mDemoSlider.stopAutoCycle();
+        binding.slider.stopAutoCycle();
         super.onStop();
     }
 
@@ -50,12 +54,12 @@ public class MainActivity extends AppCompatActivity  implements LoaderManager.Lo
     @Override
     public void onLoadFinished(@NonNull Loader<List<String>> loader, List<String> images) {
         RequestOptions requestOption = new RequestOptions().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC);
-        for (String url :  images) {
+        for (String url : images) {
             DefaultSliderView textSliderView = new DefaultSliderView(this);
             textSliderView.image(url);
             textSliderView.setRequestOption(requestOption);
             textSliderView.setProgressBarVisible(true);
-            mDemoSlider.addSlider(textSliderView);
+            binding.slider.addSlider(textSliderView);
         }
     }
 

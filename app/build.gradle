@@ -16,8 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    buildToolsVersion = '34.0.0'
     namespace 'dynamicflash.de.babyfox'
+
+    viewBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -27,11 +30,13 @@ dependencies {
     })
     androidTestImplementation 'androidx.test:core:1.6.1'
     androidTestImplementation 'androidx.test.ext:junit:1.2.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
     testImplementation 'junit:junit:4.13.2'
     implementation 'org.jsoup:jsoup:1.18.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "com.github.bumptech.glide:glide:$glide_version"
-    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
-    implementation "com.github.firdausmaulan:GlideSlider:$glide_slider_version"
+    implementation "com.github.bumptech.glide:glide:4.16.0"
+    annotationProcessor "com.github.bumptech.glide:compiler:4.16.0"
+    implementation 'com.github.firdausmaulan:GlideSlider:1.5.2'
+
+    implementation(platform('org.jetbrains.kotlin:kotlin-bom:2.0.20'))
 }
