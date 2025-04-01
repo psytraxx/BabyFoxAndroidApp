@@ -39,5 +39,5 @@ dependencies {
     implementation 'androidx.viewpager2:viewpager2:1.1.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
 
-    implementation(platform('org.jetbrains.kotlin:kotlin-bom:2.1.10'))
+    implementation(platform('org.jetbrains.kotlin:kotlin-bom:2.1.20'))
 }
